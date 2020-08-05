@@ -1,7 +1,7 @@
 package e_shop.entity;
 
 public class User {
-    private int no;
+    private int id;
     private String name;
     private String surname;
     private String email;
@@ -13,9 +13,9 @@ public class User {
     public User() {
     }
 
-    public User(int no, String name, String surname, String email, String mobNo, String address,
+    public User(int id, String name, String surname, String email, String mobNo, String address,
                 String password, String passwordHash) {
-        this.no = no;
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -25,9 +25,9 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public User(String no, String name, String surname, String email, String mobNo, String address,
+    public User(String id, String name, String surname, String email, String mobNo, String address,
                 String password, String passwordHash) {
-        this.no = Integer.parseInt(no);     // if'as dėl Stringo, kad vienas konstruktorius
+        this.id = Integer.parseInt(id);     // if'as dėl Stringo, kad vienas konstruktorius
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -49,13 +49,17 @@ public class User {
         return mobNo;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
     public String getPasswordHash() {
         return passwordHash;
     }
 
     @Override
     public String toString() {  // dinaminis stringo ilgio keitimas arba automatinis
-        return String.format("%-5s", no) +
+        return String.format("%-5s", id) +
                 String.format("%-18s", name) +
                 String.format("%-20s", surname) +
                 String.format("%-55s", email) +

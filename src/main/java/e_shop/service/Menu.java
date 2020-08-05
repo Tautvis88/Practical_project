@@ -2,7 +2,7 @@ package e_shop.service;
 
 import e_shop.service.shopservice.Shop;
 import e_shop.service.userservice.UserLogin;
-import e_shop.service.userservice.UserRegistration;
+import e_shop.service.userservice.UserSignUp;
 import e_shop.utils.Color;
 
 import java.io.IOException;
@@ -13,30 +13,32 @@ import java.util.Scanner;
 public class Menu {
     private final Scanner scanner = new Scanner(System.in);
 
-    public void greetings() throws InterruptedException, InvalidKeySpecException, NoSuchAlgorithmException, IOException {
+    public void showGreetings() throws InterruptedException, InvalidKeySpecException, NoSuchAlgorithmException, IOException {
         System.out.println("============================================================================");
         System.out.println("               SVEIKI ATVYKĘ Į ELEKTRONINĘ PARDUOTUVĘ!                      ");
         System.out.println("============================================================================");
         System.out.print("Ar norite tęsti toliau? (t/n): ");
         String continueOrNot = scanner.next();
+
         if (continueOrNot.toLowerCase().equals("t")) {
-            System.out.print("\n0 - PRISIJUNGTI, 1 - REGISTRUOTIS: ");
-
-            int signInOrRegister = scanner.nextInt();
-
-            if (signInOrRegister == 1) {
-                UserRegistration userRegistration = new UserRegistration();
-                userRegistration.runRegistrationForm();
-            } else if (signInOrRegister == 0) {
-                UserLogin userSignIn = new UserLogin();
-                userSignIn.runSignInForm();
-            }
+           askToLoginOrSignUp();
         } else {
             System.exit(0);
         }
     }
+    public void askToLoginOrSignUp() throws NoSuchAlgorithmException, InvalidKeySpecException, InterruptedException, IOException {
+        System.out.print("\n0 - Log In, 1 - Sign Up: ");
+        int logInOrSignUp = scanner.nextInt();
+        if (logInOrSignUp == 0) {
+            UserLogin userLogin = new UserLogin();
+            userLogin.runLogInForm();
+        } else if (logInOrSignUp == 1) {
+            UserSignUp userSignUp = new UserSignUp();
+            userSignUp.runSignUpForm();
+        }
+    }
 
-    public void showMenu() throws IOException, InterruptedException {
+    public void showMenu() throws IOException, InterruptedException, InvalidKeySpecException, NoSuchAlgorithmException {
         boolean repeat = true;
         while (repeat) {
             System.out.println("-----------------------------------");
@@ -54,7 +56,7 @@ public class Menu {
 
             switch (option) {
                 case 1:
-                    shop.showProductList();
+                    shop.showShopItems();
                     repeat = false;  // o jei nutrinsiu, tai gal vistiek veiks?
                     break;
                 case 2:
@@ -62,7 +64,7 @@ public class Menu {
                     repeat = false;
                     break;
                 case 3:
-                    shop.removeItemFromCart();
+                    shop.removeProductFromShoppingCart();
                     repeat = false;
                     break;
                 case 4:
@@ -70,7 +72,7 @@ public class Menu {
                     repeat = false;
                     break;
                 case 5:
-                    // endShopping();
+                    shop.endShopping();
                     repeat = false;
                     break;
                 case 6:
@@ -85,7 +87,7 @@ public class Menu {
         }
     }
 
-    private void showUserMenu() throws IOException, InterruptedException {
+    private void showUserMenu() throws IOException, InterruptedException, InvalidKeySpecException, NoSuchAlgorithmException {
         System.out.println("1 - Pakeisti slaptažodį");
         System.out.println("2 - Pakeisti adresą");
         System.out.println("3 - Ištrinti paskyrą");
@@ -112,15 +114,15 @@ public class Menu {
         }
     }
 
-    private void removeUser() throws IOException, InterruptedException {
+    private void removeUser() throws IOException, InterruptedException, InvalidKeySpecException, NoSuchAlgorithmException {
         showMenu();
     }
 
-    private void changeAddress() throws IOException, InterruptedException {
+    private void changeAddress() throws IOException, InterruptedException, InvalidKeySpecException, NoSuchAlgorithmException {
         showMenu();
     }
 
-    private void changePassword() throws IOException, InterruptedException {
+    private void changePassword() throws IOException, InterruptedException, InvalidKeySpecException, NoSuchAlgorithmException {
         showMenu();
     }
 }

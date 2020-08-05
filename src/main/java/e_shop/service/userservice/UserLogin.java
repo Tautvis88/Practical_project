@@ -9,15 +9,17 @@ import java.util.Scanner;
 
 public class UserLogin {
     private final Scanner scanner = new Scanner(System.in);
+    public static String enteredEmail;
+    public static String enteredPassword;
 
-    public void runSignInForm() throws IOException, InvalidKeySpecException,
+    public void runLogInForm() throws IOException, InvalidKeySpecException,
             NoSuchAlgorithmException, InterruptedException {
         System.out.println();
         System.out.println("============================================================================");
         System.out.println("                           PRISIJUNGIMO FORMA                               ");
         System.out.println("============================================================================");
         System.out.print("El. pašto adresas: ");
-        String enteredEmail = scanner.next();
+        enteredEmail = scanner.next();
 
         UserValidation userValidation = new UserValidation();
         while (!userValidation.doesEmailCorrect(enteredEmail)) {
@@ -26,7 +28,7 @@ public class UserLogin {
             enteredEmail = scanner.next();
         }
         System.out.print("      Slaptažodis: ");
-        String enteredPassword = scanner.next();
+        enteredPassword = scanner.next();
         userValidation.validateUser(enteredEmail, enteredPassword);
 
     }

@@ -60,26 +60,4 @@ public class FileReadWrite {
         return stringLinesFromTextFile;
     }
 
-    public Map<Product, Integer> getItemsFromFileMap() throws IOException {
-        // Nuskaito failo eilutes
-        stringLinesFromTextFile = Files.readAllLines(productsFilePath);
-
-        // Kuria prekes iš eilučių
-        Map<Product, Integer> productList = new TreeMap<>(Comparator.comparingInt(Product::getNo));
-
-        for (String productFileLine : stringLinesFromTextFile) {
-            if (productFileLine.trim().matches("\\d.*")) {
-                String[] parameters = productFileLine.replaceAll("  +", "").split("\\|");
-                int no = Integer.parseInt(parameters[0]);
-                String code = parameters[1];
-                String name = parameters[2];
-                int quantity = Integer.parseInt(parameters[3]);
-                double price = Double.parseDouble(parameters[4]);
-
-                Product newProduct = new Product(no, code, name, price);
-                productList.put(newProduct, quantity);
-            }
-        }
-        return productList;
-    }
 }

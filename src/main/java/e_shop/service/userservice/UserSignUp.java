@@ -11,10 +11,10 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserRegistration {
+public class UserSignUp {
     private final Scanner scanner = new Scanner(System.in);
 
-    public void runRegistrationForm() throws IOException, InterruptedException, InvalidKeySpecException,
+    public void runSignUpForm() throws IOException, InterruptedException, InvalidKeySpecException,
             NoSuchAlgorithmException {
         System.out.println("============================================================================");
         System.out.println("                         REGISTRACIJOS FORMA                                ");
@@ -57,7 +57,7 @@ public class UserRegistration {
         System.out.print("\nREGISTRACIJA SĖKMINGA. Ar norite prisijungti? (t/n): ");
         String requestSignIn = scanner.next();
         if (requestSignIn.equalsIgnoreCase("t")) {
-            userSignIn.runSignInForm();
+            userSignIn.runLogInForm();
         } else {
             System.exit(0);
         }
