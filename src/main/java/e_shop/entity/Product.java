@@ -1,33 +1,25 @@
 package e_shop.entity;
 
-
 import e_shop.utils.Color;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "products")
 public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private int id;
+
     private String code;
     private String name;
     private int quantity;
     private double price;
 
-
-    public Product(int id, String code, String name, double price) {
+    public Product(int id, String code, String name, int quantity, double price) {
         this.id = id;
-        this.code = code;
-        this.name = name;
-        this.price = price;
-    }
-
-    public Product(String id, String code, String name, String quantity, String price) {
-        this.id = Integer.parseInt(id);
-        this.code = code;
-        this.name = name;
-        this.quantity = Integer.parseInt(quantity);
-        this.price = Double.parseDouble(price);
-    }
-
-    public Product(int itemNo, String code, String name, int quantity, double price) {
-        this.id = itemNo;
         this.code = code;
         this.name = name;
         this.quantity = quantity;

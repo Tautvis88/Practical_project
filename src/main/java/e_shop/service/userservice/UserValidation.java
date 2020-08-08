@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class UserValidation {
     private final Scanner scanner = new Scanner(System.in);
 
-    protected void validateUser(String enteredEmail, String enteredPassword)
+    public void validateUser(String enteredEmail, String enteredPassword)
             throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, InterruptedException {
 
         boolean userNotFound = true;
@@ -26,9 +26,18 @@ public class UserValidation {
         while (userNotFound) {
             for (User user : userList) {
                 if (user.getEmail().equalsIgnoreCase(enteredEmail) &&
+                        password.validatePassword(enteredPassword, user.getPasswordHash()) &&
+                        enteredEmail.equalsIgnoreCase("admin@eshop.lt") &&
+                        enteredPassword.equals("Adminas1")) {
+                    System.out.println(Color.RED + "JŪS PRISIJUNGĖTE KAIP PUSLAPIO ADMINISTRATORIUS!" + Color.RESET);
+                    userNotFound = false;
+                    Menu menu = new Menu();
+                    menu.showAdminMenu();
+                    break;
+                } else if (user.getEmail().equalsIgnoreCase(enteredEmail) &&
                         password.validatePassword(enteredPassword, user.getPasswordHash())) {
                     System.out.println(Color.YELLOW + "Sveikiname sėkmingai prisijungus, " +
-                            userSignIn.correctUsernameEnding(user.getName()) + "!" + Color.RESET);
+                            userSignIn.correctUsernameEnding(user.getFirstName()) + "!" + Color.RESET);
                     userNotFound = false;
                     Menu menu = new Menu();
                     menu.showMenu();
@@ -46,7 +55,7 @@ public class UserValidation {
         }
     }
 
-    protected String checkEmail(String newEmail) throws IOException {
+    public String checkEmail(String newEmail) throws IOException {
         while (true) {
             if (doesEmailExist(newEmail)) {
                 System.out.println(Color.RED_BRIGHT + "Vartotojas su tokiu el. pašto adresu jau egzistuoja." + Color.RESET);
@@ -63,13 +72,15 @@ public class UserValidation {
         return newEmail;
     }
 
-    protected String checkMobNo(String newMobNo) throws IOException {
+
+
+    public String checkPhoneNumber(String newMobNo) throws IOException {
         while (true) {
-            if (doesMobNoExist(newMobNo)) {
+            if (doesPhoneNumberExist(newMobNo)) {
                 System.out.println(Color.RED_BRIGHT + "Vartotojas su tokiu tel. Nr. jau egzistuoja." + Color.RESET);
                 System.out.print("Tel. Nr. +370 6");
                 newMobNo = "+3706" + scanner.next();
-            } else if (doesMobNoCorrect(newMobNo)) {
+            } else if (doesPhoneNumberCorrect(newMobNo)) {
                 break;
             } else {
                 System.out.println(Color.RED_BRIGHT + "Neteisingas telefono numerio formatas." + Color.RESET);
@@ -80,7 +91,7 @@ public class UserValidation {
         return newMobNo;
     }
 
-    protected boolean doesEmailExist(String newEmail) throws IOException {
+    public boolean doesEmailExist(String newEmail) throws IOException {
         boolean emailExists = false;
         FileReadWrite dataFile = new FileReadWrite();
         for (User user : dataFile.getUsersFromFile()) {
@@ -92,7 +103,7 @@ public class UserValidation {
         return emailExists;
     }
 
-    protected boolean doesEmailCorrect(String newEmail) {
+    public boolean doesEmailCorrect(String newEmail) {
         boolean emailCorrect = false;
         if (newEmail.matches("^(.+)@(.+)\\.(.+)$")) {
             emailCorrect = true;
@@ -100,11 +111,11 @@ public class UserValidation {
         return emailCorrect;
     }
 
-    protected boolean doesMobNoExist(String newMobNo) throws IOException {
+    public boolean doesPhoneNumberExist(String newMobNo) throws IOException {
         boolean mobNoExists = false;
         FileReadWrite filesReadWrite = new FileReadWrite();
         for (User user : filesReadWrite.getUsersFromFile()) {
-            if (user.getMobNo().equals(newMobNo)) {
+            if (user.getTel().equals(newMobNo)) {
                 mobNoExists = true;
                 break;
             }
@@ -112,13 +123,13 @@ public class UserValidation {
         return mobNoExists;
     }
 
-    protected boolean doesMobNoCorrect(String newMobNo) {
+    public boolean doesPhoneNumberCorrect(String newMobNo) {
         boolean correctLength = false;
         boolean allDigits = false;
         if (newMobNo.length() == 12) {
             correctLength = true;
         }
-        for (int i = 5; i < 12; i++) {
+        for (int i = 1; i < 12; i++) {
             if (Character.isDigit(newMobNo.charAt(i))) {
                 allDigits = true;
             } else {

@@ -2,6 +2,8 @@ package e_shop.service;
 
 import e_shop.entity.Product;
 import e_shop.entity.User;
+import e_shop.repository.ProductRepositoryImpl;
+import e_shop.repository.UserRepositoryImpl;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,12 +26,14 @@ public class FileReadWrite {
         List<String> fileLines = Files.readAllLines(usersFilePath);
 
         List<User> usersList = new LinkedList<>();
+        UserRepositoryImpl userRepository = new UserRepositoryImpl();
 
         for (String fileLine : fileLines) {
             if (fileLine.trim().matches("\\d.*")) {
                 String[] info = fileLine.split("  +");
                 User user = new User(info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7]);
                 usersList.add(user);
+                // userRepository.saveUserToDatabase(user);
             }
         }
         return usersList;
@@ -45,12 +49,20 @@ public class FileReadWrite {
 
         // Kuria prekes iš eilučių
         List<Product> products = new LinkedList<>();
-
+        ProductRepositoryImpl productRepository = new ProductRepositoryImpl();
         for (String stringLine : stringLinesFromTextFile) {
             if (stringLine.trim().matches("\\d.*")) {
                 String[] parameters = stringLine.replaceAll("  +", "").split("\\|");
-                Product item = new Product(parameters[0], parameters[1], parameters[2], parameters[3], parameters[4]);
-                products.add(item);
+
+                int id = Integer.parseInt(parameters[0]);
+                String code = parameters[1];
+                String name = parameters[2];
+                int quantity = Integer.parseInt(parameters[3]);
+                double price = Double.parseDouble(parameters[4]);
+
+                Product product = new Product(id, code, name, quantity, price);
+                products.add(product);
+                // productRepository.saveProductToDatabase(product);
             }
         }
         return products;
