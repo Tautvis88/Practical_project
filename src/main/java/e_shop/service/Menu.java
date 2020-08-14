@@ -1,5 +1,6 @@
 package e_shop.service;
 
+import e_shop.main.JavaFX;
 import e_shop.service.shopservice.ShopProducts;
 import e_shop.service.shopservice.ShoppingCart;
 import e_shop.service.userservice.UserLogin;
@@ -23,10 +24,13 @@ public class Menu {
         String continueOrNot = scanner.next();
 
         if (continueOrNot.toLowerCase().equals("t")) {
-           askToLoginOrSignUp();
+            JavaFX javaFX = new JavaFX();
+            javaFX.runJavaFx();
+           // askToLoginOrSignUp();
         } else {
             System.exit(0);
         }
+
     }
     public void askToLoginOrSignUp() throws NoSuchAlgorithmException, InvalidKeySpecException, InterruptedException, IOException {
         while (true) {
@@ -39,8 +43,7 @@ public class Menu {
                     break;
                 } else if (logInOrSignUp == 1) {
                     UserSignUp userSignUp = new UserSignUp();
-                    // userSignUp.runSignUpForm();
-                    userSignUp.showSignUpForm();
+                    userSignUp.runSignUpForm();
                     break;
                 }
             } catch (InputMismatchException exception) {
@@ -104,7 +107,7 @@ public class Menu {
 
     public void showAdminMenu() throws IOException, InterruptedException, InvalidKeySpecException, NoSuchAlgorithmException {
         boolean repeat = true;
-        while (repeat) {
+        while (repeat) {    // JAVA FX attached file to import
             System.out.println("-----------------------------------");
             System.out.println("1 - RODYTI REGISTRUOTUS VARTOTOJUS");
             System.out.println("2 - RODYTI PREKIŲ SĄRAŠĄ");

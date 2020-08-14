@@ -11,31 +11,31 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private int id;
+    private int productId;
 
-    private String code;
-    private String name;
+    private String productCode;
+    private String productName;
     private int quantity;
     private double price;
 
-    public Product(int id, String code, String name, int quantity, double price) {
-        this.id = id;
-        this.code = code;
-        this.name = name;
+    public Product(int productId, String productCode, String productName, int quantity, double price) {
+        this.productId = productId;
+        this.productCode = productCode;
+        this.productName = productName;
         this.quantity = quantity;
         this.price = price;
     }
 
-    public int getId() {
-        return id;
+    public int getProductId() {
+        return productId;
     }
 
-    public String getCode() {
-        return code;
+    public String getProductCode() {
+        return productCode;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
     public int getQuantity() {
@@ -59,9 +59,9 @@ public class Product {
             newQuantity = String.valueOf(quantity);
         }
         // dinaminis tarpų keitimas per kintamuosius
-        return String.format("%4s", id) +
-                "   |  " + String.format("%-11s", code) +
-                "|  " + String.format("%-48s", name) +
+        return String.format("%4s", productId) +
+                "   |  " + String.format("%-11s", productCode) +
+                "|  " + String.format("%-48s", productName) +
                 "|     " + String.format("%-7s", newQuantity) +
                 "|    " + String.format("%6s", price);
     }

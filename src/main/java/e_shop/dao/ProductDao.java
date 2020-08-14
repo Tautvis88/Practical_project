@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 public class ProductDao {
 
     private Transaction transaction = null;
-
+    // Generic Dao, nes abu dao labai panašūs
     public void addProduct(Product product) {
         try {
             Session session = HibernateUtils.getSessionFactory().openSession();

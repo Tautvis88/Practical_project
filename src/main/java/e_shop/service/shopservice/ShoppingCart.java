@@ -56,7 +56,7 @@ public class ShoppingCart {
         int quantity = specifyTheQuantity(productId);
         if (isProductAlreadyInCart(productId)) {
             for (Product product : shoppingCart) {
-                if (product.getId() == productId) {
+                if (product.getProductId() == productId) {
                     System.out.println(Color.GREEN_BRIGHT +
                             "Tokia prekė jau yra prekių krepšelyje, todėl jos kiekis bus padidintas iki " +
                             (product.getQuantity() + quantity) + " vnt." + Color.RESET);
@@ -66,8 +66,8 @@ public class ShoppingCart {
             }
         } else {
             for (Product product : productList) {
-                if (product.getId() == productId) {
-                    Product boughtProduct = new Product(productId, product.getCode(), product.getName(), quantity, product.getPrice());
+                if (product.getProductId() == productId) {
+                    Product boughtProduct = new Product(productId, product.getProductCode(), product.getProductName(), quantity, product.getPrice());
                     shoppingCart.add(boughtProduct);
                     decreaseProductQuantityInShop(productId, quantity);
                     System.out.println(Color.GREEN_BRIGHT + "Prekė sėkmingai pridėta į krepšelį." + Color.RESET);
@@ -86,7 +86,7 @@ public class ShoppingCart {
             int productId = scanner.nextInt();
             boolean productNotFound = true;
             for (Product product : shoppingCart) {
-                if (product.getId() == productId && product.getQuantity() > 1) {
+                if (product.getProductId() == productId && product.getQuantity() > 1) {
                     productNotFound = false;
                     System.out.println("You have " + product.getQuantity() + " products with ID " + productId + ".");
                     System.out.print("How many products do you want to remove? ");
@@ -104,7 +104,7 @@ public class ShoppingCart {
                                 " has decreased to " + newDecreasedQuantity + "." + Color.RESET);
                     }
                     break;
-                } else if (product.getId() == productId && product.getQuantity() == 1) {
+                } else if (product.getProductId() == productId && product.getQuantity() == 1) {
                     productNotFound = false;
                     shoppingCart.remove(product);
                     increaseProductQuantityInShop(productId, 1);
@@ -123,7 +123,7 @@ public class ShoppingCart {
 
     private void decreaseProductQuantityInShop(int productId, int quantityPurchased) {
         for (Product product : productList) {
-            if (product.getId() == productId) {
+            if (product.getProductId() == productId) {
                 int newQuantity = product.getQuantity() - quantityPurchased;
                 product.setQuantity(newQuantity);
                 break;
@@ -133,7 +133,7 @@ public class ShoppingCart {
 
     private void increaseProductQuantityInShop(int productId, int quantityReturned) {
         for (Product product : productList) {
-            if (product.getId() == productId) {
+            if (product.getProductId() == productId) {
                 int newQuantity = product.getQuantity() + quantityReturned;
                 product.setQuantity(newQuantity);
                 break;
@@ -143,7 +143,7 @@ public class ShoppingCart {
 
     private boolean isProductAlreadyInCart(int itemNo) {
         for (Product product: shoppingCart) {
-            if (product.getId() == itemNo) {
+            if (product.getProductId() == itemNo) {
                 return true;
             }
         }
@@ -162,7 +162,7 @@ public class ShoppingCart {
 
     public void printShoppingCart() {
         printCartHeader();
-        shoppingCart.sort(Comparator.comparingInt(Product::getId));
+        shoppingCart.sort(Comparator.comparingInt(Product::getProductId));
         for (Product product : shoppingCart) {
             System.out.println(product.toString());
         }
@@ -202,7 +202,7 @@ public class ShoppingCart {
     private boolean isProductOutOfStock(int productId) {
         boolean productIsOutOfStock = false;
         for (Product product : productList) {
-            if (product.getId() == productId) {
+            if (product.getProductId() == productId) {
                 productIsOutOfStock = product.getQuantity() == 0;
                 break;
             }
@@ -240,7 +240,7 @@ public class ShoppingCart {
 
     private boolean quantityIsNotSufficient(int itemNo, int quantity) {
         for (Product product : productList) {
-            if (product.getId() == itemNo) {
+            if (product.getProductId() == itemNo) {
                 return product.getQuantity() < quantity;
             }
         }
@@ -250,7 +250,7 @@ public class ShoppingCart {
     private int getItemQuantity(int itemNo) {
         int itemQuantity = 0;
         for (Product product : productList) {
-            if (product.getId() == itemNo) {
+            if (product.getProductId() == itemNo) {
                 itemQuantity = product.getQuantity();
             }
         }

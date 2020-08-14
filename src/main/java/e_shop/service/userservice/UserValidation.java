@@ -4,6 +4,9 @@ import e_shop.entity.User;
 import e_shop.service.FileReadWrite;
 import e_shop.service.Menu;
 import e_shop.utils.Color;
+import e_shop.utils.TextFieldUtils;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -57,11 +60,11 @@ public class UserValidation {
 
     public String checkEmail(String newEmail) throws IOException {
         while (true) {
-            if (doesEmailExist(newEmail)) {
+            if (isEmailExist(newEmail)) {
                 System.out.println(Color.RED_BRIGHT + "Vartotojas su tokiu el. pašto adresu jau egzistuoja." + Color.RESET);
                 System.out.print("El. paštas: ");
                 newEmail = scanner.next();
-            } else if (doesEmailCorrect(newEmail)) {
+            } else if (isEmailCorrect(newEmail)) {
                 break;
             } else {
                 System.out.println(Color.RED_BRIGHT + "Neteisingas el. pašto adreso formatas." + Color.RESET);
@@ -76,11 +79,11 @@ public class UserValidation {
 
     public String checkPhoneNumber(String newMobNo) throws IOException {
         while (true) {
-            if (doesPhoneNumberExist(newMobNo)) {
+            if (isPhoneNumberExist(newMobNo)) {
                 System.out.println(Color.RED_BRIGHT + "Vartotojas su tokiu tel. Nr. jau egzistuoja." + Color.RESET);
                 System.out.print("Tel. Nr. +370 6");
                 newMobNo = "+3706" + scanner.next();
-            } else if (doesPhoneNumberCorrect(newMobNo)) {
+            } else if (isPhoneNumberCorrect(newMobNo)) {
                 break;
             } else {
                 System.out.println(Color.RED_BRIGHT + "Neteisingas telefono numerio formatas." + Color.RESET);
@@ -91,7 +94,7 @@ public class UserValidation {
         return newMobNo;
     }
 
-    public boolean doesEmailExist(String newEmail) throws IOException {
+    public boolean isEmailExist(String newEmail) throws IOException {
         boolean emailExists = false;
         FileReadWrite dataFile = new FileReadWrite();
         for (User user : dataFile.getUsersFromFile()) {
@@ -103,7 +106,7 @@ public class UserValidation {
         return emailExists;
     }
 
-    public boolean doesEmailCorrect(String newEmail) {
+    public boolean isEmailCorrect(String newEmail) {
         boolean emailCorrect = false;
         if (newEmail.matches("^(.+)@(.+)\\.(.+)$")) {
             emailCorrect = true;
@@ -111,7 +114,7 @@ public class UserValidation {
         return emailCorrect;
     }
 
-    public boolean doesPhoneNumberExist(String newMobNo) throws IOException {
+    public boolean isPhoneNumberExist(String newMobNo) throws IOException {
         boolean mobNoExists = false;
         FileReadWrite filesReadWrite = new FileReadWrite();
         for (User user : filesReadWrite.getUsersFromFile()) {
@@ -123,20 +126,71 @@ public class UserValidation {
         return mobNoExists;
     }
 
-    public boolean doesPhoneNumberCorrect(String newMobNo) {
+    public boolean isPhoneNumberCorrect(String phoneNumber) {
         boolean correctLength = false;
         boolean allDigits = false;
-        if (newMobNo.length() == 12) {
+        if (phoneNumber.length() == 12) {
             correctLength = true;
-        }
-        for (int i = 1; i < 12; i++) {
-            if (Character.isDigit(newMobNo.charAt(i))) {
-                allDigits = true;
-            } else {
-                allDigits = false;
-                break;
+            for (int i = 1; i < 12; i++) {
+                if (Character.isDigit(phoneNumber.charAt(i))) {
+                    allDigits = true;
+                } else {
+                    allDigits = false;
+                    break;
+                }
             }
         }
         return correctLength && allDigits;
     }
+
+    public void validateEmail(String email, GridPane gridPane,
+                              Label invalidEmailLabel, Label emailExistsLabel) {
+        if (TextFieldUtils.messageInvalidEmailFormatVisible) {
+            gridPane.getChildren().remove(invalidEmailLabel);
+        } else if (TextFieldUtils.messageEmailExistsVisible) {
+            gridPane.getChildren().remove(emailExistsLabel);
+        }
+
+        if (!isEmailCorrect(email)) {
+            invalidEmailLabel.setTextFill(javafx.scene.paint.Color.RED);
+            gridPane.add(invalidEmailLabel, 3, 3);
+            TextFieldUtils.messageInvalidEmailFormatVisible = true;
+        } else {
+            try {
+                if (isEmailExist(email)) {
+                    emailExistsLabel.setTextFill(javafx.scene.paint.Color.RED);
+                    gridPane.add(emailExistsLabel, 3, 3);
+                    TextFieldUtils.messageEmailExistsVisible = true;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void validatePhoneNumber(String phoneNumber, GridPane gridPane,
+                                    Label invalidPhoneNumberLabel, Label phoneNumberExistsLabel) {
+        if (TextFieldUtils.messageInvalidPhoneNumberFormatVisible) {
+            gridPane.getChildren().remove(invalidPhoneNumberLabel);
+        } else if (TextFieldUtils.messagePhoneNumberExistsVisible) {
+            gridPane.getChildren().remove(phoneNumberExistsLabel);
+        }
+
+        if (!isPhoneNumberCorrect(phoneNumber)) {
+            invalidPhoneNumberLabel.setTextFill(javafx.scene.paint.Color.RED);
+            gridPane.add(invalidPhoneNumberLabel, 3, 4);
+            TextFieldUtils.messageInvalidPhoneNumberFormatVisible = true;
+        } else {
+            try {
+                if (isPhoneNumberExist(phoneNumber)) {
+                    phoneNumberExistsLabel.setTextFill(javafx.scene.paint.Color.RED);
+                    gridPane.add(phoneNumberExistsLabel, 3, 4);
+                    TextFieldUtils.messagePhoneNumberExistsVisible = true;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

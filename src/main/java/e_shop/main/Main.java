@@ -1,6 +1,7 @@
 package e_shop.main;
 
 import e_shop.service.Menu;
+import e_shop.service.userservice.UserSignUp;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -13,10 +14,12 @@ public class Main {
         // Context context = new Context(new FileReader());
         // context.executeStrategy();
 
+        JavaFX javaFX = new JavaFX();
+        javaFX.runJavaFx();
+
         Menu menu = new Menu();
+        // menu.startTheProgram();
+        // menu.showMenu();
 
-        menu.startTheProgram();
-
-        menu.showMenu();
     }
 }

@@ -22,7 +22,7 @@ public class UserLogin {
         enteredEmail = scanner.next();
 
         UserValidation userValidation = new UserValidation();
-        while (!userValidation.doesEmailCorrect(enteredEmail)) {
+        while (!userValidation.isEmailCorrect(enteredEmail)) {
             System.out.println(Color.RED_BRIGHT + "Neteisingas el. pašto adreso formatas." + Color.RESET);
             System.out.print("El. pašto adresas: ");
             enteredEmail = scanner.next();

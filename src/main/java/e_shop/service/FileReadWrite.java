@@ -3,6 +3,7 @@ package e_shop.service;
 import e_shop.entity.Product;
 import e_shop.entity.User;
 import e_shop.repository.ProductRepositoryImpl;
+import e_shop.repository.UserRepository;
 import e_shop.repository.UserRepositoryImpl;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class FileReadWrite {
         List<String> fileLines = Files.readAllLines(usersFilePath);
 
         List<User> usersList = new LinkedList<>();
-        UserRepositoryImpl userRepository = new UserRepositoryImpl();
+        UserRepository userRepository = new UserRepositoryImpl();
 
         for (String fileLine : fileLines) {
             if (fileLine.trim().matches("\\d.*")) {
@@ -36,7 +37,7 @@ public class FileReadWrite {
                 // userRepository.saveUserToDatabase(user);
             }
         }
-        return usersList;
+        return usersList;   // paduoti šitą listą į DB, o ne po atskirą userį
     }
 
     public Path getUsersFilePath() {

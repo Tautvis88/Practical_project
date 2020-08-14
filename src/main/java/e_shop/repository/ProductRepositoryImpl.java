@@ -14,6 +14,8 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public void saveProductToDatabase(Product product) {
+        // papildomas funkcionalumas, setPrice ar pan., išrūšiuoti, suapavalinti ir tik tada save to DB
+        // o DAO tik data access object tik save, update, delete
         productDao.addProduct(product);
     }
 }
