@@ -8,15 +8,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class JavaFX extends Application {
 
     private UserService userService = new UserService();
 
-    public void runJavaFx() {
+    public static void runJavaFx() {
         launch();
     }
 
@@ -25,35 +31,54 @@ public class JavaFX extends Application {
         constructMainView(primaryStage);
     }
 
-    public void constructMainView(Stage primaryStage) {
+    public void constructMainView(Stage primaryStage) throws FileNotFoundException {
+
+        // Creating an image
+        Image image = new Image(new FileInputStream("src/main/resources/files/eshop.jpg"));
+
+        // Setting the image view
+        ImageView imageView = new ImageView(image);
+
+        // Setting the position of the image
+        //imageView.setX(200);
+        //imageView.setY(100);
+
+        // Setting the fit height and width of the image view
+        //imageView.setFitHeight(500);
+        imageView.setFitWidth(300);
+
+        // Setting the preserve ratio of the image view
+        imageView.setPreserveRatio(true);
+
         Button signUpButton = new Button("SIGN UP");
         signUpButton.setPrefSize(100, 50);
         signUpButton.setFont(Font.font(16));
+        signUpButton.setTranslateX(100);
+
         Button logInButton = new Button("LOG IN");
         logInButton.setPrefSize(100, 50);
         logInButton.setFont(Font.font(16));
+        logInButton.setTranslateX(100);
 
         GridPane mainGridPane = new GridPane();
         mainGridPane.setHgap(50);
-        mainGridPane.setVgap(50);
+        mainGridPane.setVgap(35);
         mainGridPane.setAlignment(Pos.TOP_CENTER);
-        mainGridPane.add(signUpButton, 0, 1);
-        mainGridPane.add(logInButton, 0, 2);
+        mainGridPane.add(imageView, 0, 1);
+        mainGridPane.add(signUpButton, 0, 2);
+        mainGridPane.add(logInButton, 0, 3);
+
         Scene mainScene = new Scene(mainGridPane);
         primaryStage.setScene(mainScene);
         primaryStage.setTitle("MENU");
-        primaryStage.setHeight(300);
-        primaryStage.setWidth(300);
+        primaryStage.setHeight(400);
+        primaryStage.setWidth(500);
         primaryStage.setAlwaysOnTop(true);
         primaryStage.show();
 
         // setOnMouseClicked() method defines what happens when the button is clicked.
-        signUpButton.setOnMouseClicked(event -> {
-            constructSignUpFormView(primaryStage);
-        });
-        logInButton.setOnMouseClicked(event -> {
-            constructLogInFormView(primaryStage);
-        });
+        signUpButton.setOnMouseClicked(event -> constructSignUpFormView(primaryStage));
+        logInButton.setOnMouseClicked(event -> constructLogInFormView(primaryStage));
     }
 
     public void constructLogInFormView(Stage primaryStage) {
@@ -89,7 +114,11 @@ public class JavaFX extends Application {
         primaryStage.show();
 
         backToMainMenuButton.setOnMouseClicked(event -> {
-            constructMainView(primaryStage);
+            try {
+                constructMainView(primaryStage);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         });
 
         logInButton.setOnMouseClicked(event -> {
@@ -99,6 +128,7 @@ public class JavaFX extends Application {
     }
 
     public void constructSignUpFormView(Stage primaryStage) {
+        // Labels of Sign Up form fields
         Label firstNameLabel = new Label("First name: ");
         Label lastNameLabel = new Label("Last name: ");
         Label emailLabel = new Label("* Email: ");
@@ -109,15 +139,34 @@ public class JavaFX extends Application {
         Label confirmPasswordLabel = new Label("* Confirm password: ");
         Label mandatoryFieldsLabel = new Label("* mandatory fields");
 
-        Label thisFieldIsMandatoryLabel = new Label("This field is mandatory.");
-        Label thisFieldIsMandatoryLabel2 = new Label("This field is mandatory.");
-        Label invalidEmailLabel = new Label("Invalid email format!");
-        Label emailExistsLabel = new Label("Email exists!");
-        Label invalidPhoneNumberLabel = new Label("Invalid phone number format!");
-        Label phoneNumberExistsLabel = new Label("Phone number exists!");
+        // Email field labels
+        Label emailIsMandatoryLabel = new Label("Email is mandatory.");
+              emailIsMandatoryLabel.setTextFill(Color.RED);
+        Label emailFormatInvalidLabel = new Label("Email format is invalid.");
+              emailFormatInvalidLabel.setTextFill(Color.RED);
+        Label emailExistsLabel = new Label("Email exists.");
+              emailExistsLabel.setTextFill(Color.RED);
+
+        // Phone Number field labels
+        Label phoneNumberIsMandatoryLabel = new Label("Phone number is mandatory.");
+              phoneNumberIsMandatoryLabel.setTextFill(Color.RED);
+        Label phoneNumberFormatInvalidLabel = new Label("Phone number format is invalid.");
+              phoneNumberFormatInvalidLabel.setTextFill(Color.RED);
+        Label phoneNumberExistsLabel = new Label("Phone number exists.");
+              phoneNumberExistsLabel.setTextFill(Color.RED);
+
+        // Password field labels
+        Label passwordIsMandatoryLabel = new Label("Password is mandatory.");
+              passwordIsMandatoryLabel.setTextFill(Color.RED);
+        Label passwordConfirmIsMandatoryLabel = new Label("Password confirm is mandatory.");
+              passwordConfirmIsMandatoryLabel.setTextFill(Color.RED);
+        Label passwordsDoNotMatchLabel = new Label("Password do not match.");
+              passwordsDoNotMatchLabel.setTextFill(Color.RED);
+        Label passwordComplexityLabel = new Label("Password does not meet the complexity requirements.");
+              passwordComplexityLabel.setTextFill(Color.RED);
 
         TextField firstNameTextField = new TextField();
-        firstNameTextField.setPrefWidth(300);
+                  firstNameTextField.setPrefWidth(300);
         TextField lastNameTextField = new TextField();
         TextField emailTextField = new TextField();
         TextField phoneNumberTextField = new TextField("+370");
@@ -159,20 +208,31 @@ public class JavaFX extends Application {
         gridPane.add(backToMainMenuButton, 3,10);
 
         Scene scene = new Scene(gridPane);
+        scene.getStylesheets().add(getClass().getResource("/files/textFieldRedBorder.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("SIGN UP FORM");
         primaryStage.setHeight(500);
-        primaryStage.setWidth(700);
+        primaryStage.setWidth(750);
         primaryStage.setAlwaysOnTop(true);
         primaryStage.show();
 
         // setOnMouseClicked() method defines what happens when the button is clicked.
         addUserButton.setOnMouseClicked(event -> {
-            userService.addUser(thisFieldIsMandatoryLabel, thisFieldIsMandatoryLabel2, invalidEmailLabel, emailExistsLabel, invalidPhoneNumberLabel, phoneNumberExistsLabel, firstNameTextField, lastNameTextField, emailTextField, phoneNumberTextField, addressTextField, countryComboBox, passwordTextField, confirmPasswordTextField, gridPane);
+            userService.addUser(emailIsMandatoryLabel, emailFormatInvalidLabel, emailExistsLabel,
+                                phoneNumberIsMandatoryLabel, phoneNumberFormatInvalidLabel, phoneNumberExistsLabel,
+                                passwordIsMandatoryLabel, passwordConfirmIsMandatoryLabel, passwordsDoNotMatchLabel,
+                                passwordComplexityLabel,
+                                firstNameTextField, lastNameTextField, emailTextField, phoneNumberTextField,
+                                addressTextField, countryComboBox, passwordTextField, confirmPasswordTextField,
+                                gridPane);
         });
 
         backToMainMenuButton.setOnMouseClicked(event -> {
-            constructMainView(primaryStage);
+            try {
+                constructMainView(primaryStage);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         });
 
     }

@@ -4,8 +4,8 @@ import e_shop.entity.User;
 import e_shop.service.FileReadWrite;
 import e_shop.service.Menu;
 import e_shop.utils.Color;
-import e_shop.utils.TextFieldUtils;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class UserValidation {
         boolean userNotFound = true;
         FileReadWrite dataFile = new FileReadWrite();
         List<User> userList = dataFile.getUsersFromFile();
-        Password password = new Password();
+        PasswordService password = new PasswordService();
         UserLogin userSignIn = new UserLogin();
 
         while (userNotFound) {
@@ -143,24 +143,18 @@ public class UserValidation {
         return correctLength && allDigits;
     }
 
-    public void validateEmail(String email, GridPane gridPane,
-                              Label invalidEmailLabel, Label emailExistsLabel) {
-        if (TextFieldUtils.messageInvalidEmailFormatVisible) {
-            gridPane.getChildren().remove(invalidEmailLabel);
-        } else if (TextFieldUtils.messageEmailExistsVisible) {
-            gridPane.getChildren().remove(emailExistsLabel);
-        }
-
+    public void validateEmail(String email, GridPane gridPane, Label emailFormatInvalidLabel, Label emailExistsLabel,
+                              TextField emailTextField) {
         if (!isEmailCorrect(email)) {
-            invalidEmailLabel.setTextFill(javafx.scene.paint.Color.RED);
-            gridPane.add(invalidEmailLabel, 3, 3);
-            TextFieldUtils.messageInvalidEmailFormatVisible = true;
+            gridPane.add(emailFormatInvalidLabel, 3, 3);
+            emailTextField.getStyleClass().add("error");
+            UserService.allMandatoryFieldsCorrect = false;
         } else {
             try {
                 if (isEmailExist(email)) {
-                    emailExistsLabel.setTextFill(javafx.scene.paint.Color.RED);
                     gridPane.add(emailExistsLabel, 3, 3);
-                    TextFieldUtils.messageEmailExistsVisible = true;
+                    emailTextField.getStyleClass().add("error");
+                    UserService.allMandatoryFieldsCorrect = false;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -168,24 +162,18 @@ public class UserValidation {
         }
     }
 
-    public void validatePhoneNumber(String phoneNumber, GridPane gridPane,
-                                    Label invalidPhoneNumberLabel, Label phoneNumberExistsLabel) {
-        if (TextFieldUtils.messageInvalidPhoneNumberFormatVisible) {
-            gridPane.getChildren().remove(invalidPhoneNumberLabel);
-        } else if (TextFieldUtils.messagePhoneNumberExistsVisible) {
-            gridPane.getChildren().remove(phoneNumberExistsLabel);
-        }
-
+    public void validatePhoneNumber(String phoneNumber, GridPane gridPane, Label invalidPhoneNumberLabel,
+                                    Label phoneNumberExistsLabel, TextField phoneNumberTextField) {
         if (!isPhoneNumberCorrect(phoneNumber)) {
-            invalidPhoneNumberLabel.setTextFill(javafx.scene.paint.Color.RED);
             gridPane.add(invalidPhoneNumberLabel, 3, 4);
-            TextFieldUtils.messageInvalidPhoneNumberFormatVisible = true;
+            phoneNumberTextField.getStyleClass().add("error");
+            UserService.allMandatoryFieldsCorrect = false;
         } else {
             try {
                 if (isPhoneNumberExist(phoneNumber)) {
-                    phoneNumberExistsLabel.setTextFill(javafx.scene.paint.Color.RED);
                     gridPane.add(phoneNumberExistsLabel, 3, 4);
-                    TextFieldUtils.messagePhoneNumberExistsVisible = true;
+                    phoneNumberTextField.getStyleClass().add("error");
+                    UserService.allMandatoryFieldsCorrect = false;
                 }
             } catch (IOException e) {
                 e.printStackTrace();

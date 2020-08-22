@@ -12,7 +12,7 @@ import java.security.spec.KeySpec;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Password {
+public class PasswordService {
     private final String upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private final String lowerCaseChars = upperCaseChars.toLowerCase();
     private final String digits = "0123456789";
@@ -30,7 +30,7 @@ public class Password {
         return password;
     }
 
-    private boolean meetsRequirements(String password) {
+    public boolean meetsRequirements(String password) {
         boolean meetsRequirements = false;
         if (password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")) {
             meetsRequirements = true;

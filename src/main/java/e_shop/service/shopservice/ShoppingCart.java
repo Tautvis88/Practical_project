@@ -4,7 +4,7 @@ import e_shop.entity.Product;
 import e_shop.entity.User;
 import e_shop.service.FileReadWrite;
 import e_shop.service.Menu;
-import e_shop.service.userservice.Password;
+import e_shop.service.userservice.PasswordService;
 import e_shop.service.userservice.UserLogin;
 import e_shop.utils.Color;
 
@@ -258,7 +258,7 @@ public class ShoppingCart {
     }
 
     public void endShopping() throws InterruptedException, IOException, InvalidKeySpecException, NoSuchAlgorithmException {
-        Password password = new Password();
+        PasswordService password = new PasswordService();
         if (shoppingCart.isEmpty()) {
             System.out.println(Color.RED + "PREKIŲ KREPŠELIS YRA TUŠČIAS." + Color.RESET);
             System.out.println("-----------------------------------");

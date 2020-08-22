@@ -14,12 +14,21 @@ public class Main {
         // Context context = new Context(new FileReader());
         // context.executeStrategy();
 
-        JavaFX javaFX = new JavaFX();
-        javaFX.runJavaFx();
 
-        Menu menu = new Menu();
+        JavaFX.runJavaFx();
+
+
+        // Menu menu = new Menu();
         // menu.startTheProgram();
         // menu.showMenu();
 
     }
 }
+
+/*
+UserService.class -> addUser() metode žiauriai daug parametrų - gal galima juos kaip nors iškelti ar iš viso tą
+metodą atgal įkelti į JavaFX klasę?
+
+Gal koks nors vienas metodas, kuris ištrintų tuos raudonus labelius prie mandatory fieldų ir panaikintų red border,
+nes dabar žiauriai kartojasi visur tas remove("error).
+ */

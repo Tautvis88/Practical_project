@@ -4,15 +4,6 @@ import e_shop.entity.User;
 import e_shop.repository.UserRepository;
 import e_shop.repository.UserRepositoryImpl;
 import e_shop.service.FileReadWrite;
-import javafx.application.Application;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -56,7 +47,7 @@ public class UserSignUp {
 
         System.out.print("Slaptažodis: ");
         String userPassword = scanner.next();
-        Password password = new Password();
+        PasswordService password = new PasswordService();
         String strongPassword = password.requirementsValidation(userPassword);
         String strongPasswordHash = password.generatePasswordHash(strongPassword);
 
