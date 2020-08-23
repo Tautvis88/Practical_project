@@ -26,9 +26,15 @@ public class Main {
 }
 
 /*
+textfielduose padaryti, kad rašytų ką į tą text fieldą ką įrašyti.
+setTableMenuButtonVissible(true), kad stulpelių pasirinkimus rodytų
+
 UserService.class -> addUser() metode žiauriai daug parametrų - gal galima juos kaip nors iškelti ar iš viso tą
 metodą atgal įkelti į JavaFX klasę?
 
 Gal koks nors vienas metodas, kuris ištrintų tuos raudonus labelius prie mandatory fieldų ir panaikintų red border,
 nes dabar žiauriai kartojasi visur tas remove("error).
+
+Gal koks vienas metodas checkAllMandatoryFields(), paskui jame daug metodu checkEmailField(), checkPhoneNumberField()
+ir t.t., o prieš juos visus koks nors metodas removeAllWarnings(), kuris ištrina viską.
  */

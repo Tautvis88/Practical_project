@@ -17,10 +17,17 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JavaFX extends Application {
 
+
     private UserService userService = new UserService();
+    private static List<Label> listOfWarnings = new ArrayList<>();
+
+    public JavaFX() {
+    }
 
     public static void runJavaFx() {
         launch();
@@ -38,10 +45,6 @@ public class JavaFX extends Application {
 
         // Setting the image view
         ImageView imageView = new ImageView(image);
-
-        // Setting the position of the image
-        //imageView.setX(200);
-        //imageView.setY(100);
 
         // Setting the fit height and width of the image view
         //imageView.setFitHeight(500);
@@ -91,6 +94,7 @@ public class JavaFX extends Application {
 
         Button logInButton = new Button("Log In");
         Button backToMainMenuButton = new Button("Back to MENU");
+        backToMainMenuButton.setTranslateX(205);
         GridPane gridPane = new GridPane();
 
         gridPane.setHgap(20);
@@ -103,7 +107,7 @@ public class JavaFX extends Application {
         gridPane.add(passwordTextField, 2, 2);
 
         gridPane.add(logInButton, 2, 3);
-        gridPane.add(backToMainMenuButton, 3, 3);
+        gridPane.add(backToMainMenuButton, 2, 3);
 
         Scene scene = new Scene(gridPane);
         primaryStage.setScene(scene);
@@ -165,6 +169,19 @@ public class JavaFX extends Application {
         Label passwordComplexityLabel = new Label("Password does not meet the complexity requirements.");
               passwordComplexityLabel.setTextFill(Color.RED);
 
+        listOfWarnings.add(emailIsMandatoryLabel);
+        listOfWarnings.add(emailFormatInvalidLabel);
+        listOfWarnings.add(emailExistsLabel);
+
+        listOfWarnings.add(phoneNumberIsMandatoryLabel);
+        listOfWarnings.add(phoneNumberFormatInvalidLabel);
+        listOfWarnings.add(phoneNumberExistsLabel);
+
+        listOfWarnings.add(passwordIsMandatoryLabel);
+        listOfWarnings.add(passwordConfirmIsMandatoryLabel);
+        listOfWarnings.add(passwordsDoNotMatchLabel);
+        listOfWarnings.add(passwordComplexityLabel);
+
         TextField firstNameTextField = new TextField();
                   firstNameTextField.setPrefWidth(300);
         TextField lastNameTextField = new TextField();
@@ -181,6 +198,7 @@ public class JavaFX extends Application {
 
         Button addUserButton = new Button("Add user");
         Button backToMainMenuButton = new Button("Back to MENU");
+        backToMainMenuButton.setTranslateX(205);
         GridPane gridPane = new GridPane();
 
         gridPane.setHgap(10);
@@ -205,7 +223,7 @@ public class JavaFX extends Application {
         gridPane.add(confirmPasswordTextField, 2, 8);
         gridPane.add(mandatoryFieldsLabel, 2, 9);
         gridPane.add(addUserButton, 2, 10);
-        gridPane.add(backToMainMenuButton, 3,10);
+        gridPane.add(backToMainMenuButton, 2,10);
 
         Scene scene = new Scene(gridPane);
         scene.getStylesheets().add(getClass().getResource("/files/textFieldRedBorder.css").toExternalForm());
@@ -235,5 +253,9 @@ public class JavaFX extends Application {
             }
         });
 
+    }
+
+    public static List<Label> getListOfWarnings() {
+        return listOfWarnings;
     }
 }
